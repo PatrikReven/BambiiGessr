@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="sl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BambiiGuessr</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+</head>
+<body>
+  <header class="topbar">
+    <img src="slike/bfbnsgsegns.png" alt="Logo" class="logo-img" />
+    <div class="title">
+      <h1>BambiiGuessr</h1>
+      <p class="sub">Klikni na Slovenijo, nato potrdi izbiro. Bližje = več točk.</p>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- Med igro: cilj + POTRDI -->
+    <div class="target-inline">
+      <span class="label" id="seekLabel">Iščeš:</span>
+      <strong id="topTarget">—</strong>
+      <button id="confirmBtn" class="btn success small" disabled>Potrdi</button>
+    </div>
+
+    <button id="helpBtn" class="btn ghost">?</button>
+  </header>
+
+  <!-- Start overlay -->
+  <div id="startOverlay" class="overlay show">
+    <div class="overlay-card">
+      <h2>Začni igro</h2>
+
+      <div class="row">
+        <label class="lbl" for="playerName">Tvoje ime (za scoreboard)</label>
+        <input id="playerName" class="input" type="text" placeholder="npr. Patrik" maxlength="24" />
+      </div>
+
+      <div class="row">
+        <label class="lbl">Način</label>
+        <div class="segmented" id="modeGroup">
+          <button class="seg active" data-mode="kraji">Kraji</button>
+          <button class="seg" data-mode="obcine">Občine</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <label class="lbl">Težavnost</label>
+        <select id="difficulty" class="select">
+          <option value="1">1 — najlažje</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 — najtežje</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <label class="lbl">Število vprašanj</label>
+        <select id="numQ" class="select">
+          <option value="10" selected>10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+
+      <div class="row actions">
+        <button id="startBtn" class="btn primary">Začni</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <aside id="panel">
+      <section class="card now-playing">
+        <h2>Trenutno</h2>
+        <div class="statline">
+          <div class="stat">
+            <div class="k">Igralec</div>
+            <div class="v" id="uiPlayer">–</div>
+          </div>
+          <div class="stat">
+            <div class="k">Način</div>
+            <div class="v" id="uiMode">–</div>
+          </div>
+          <div class="stat">
+            <div class="k">Stopnja</div>
+            <div class="v" id="uiLevel">–</div>
+          </div>
+          <div class="stat">
+            <div class="k">Vprašanje</div>
+            <div class="v" id="uiQ">–/–</div>
+          </div>
+          <div class="stat">
+            <div class="k">Točke</div>
+            <div class="v" id="uiScore">0</div>
+          </div>
+        </div>
+
+        <div class="prompt">
+          <div class="label" id="findLabel">Poišči:</div>
+          <div id="targetName">—</div>
+        </div>
+
+        <div id="feedback" class="feedback"></div>
+
+        <div class="row actions">
+          <button id="recenterBtn" class="btn ghost">Re-center SI</button>
+          <button id="resetBtn" class="btn warn" disabled>Resetiraj</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Scoreboard</h2>
+        <div id="board" class="board"></div>
+        <div class="row actions">
+          <button id="clearBoardBtn" class="btn ghost">Počisti scoreboard</button>
+        </div>
+      </section>
+    </aside>
+
+    <div id="map">
+      <div class="map-vignette" aria-hidden="true"></div>
+    </div>
+  </main>
+
+  <footer class="foot">
+    Točkovanje: max 5000/poskus, −25 točk na km (min 0). Najprej klik, potem “Potrdi”.
+  </footer>
+
+  <!-- Leaflet JS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <script src="app.js"></script>
+</body>
+</html>
